@@ -1,0 +1,906 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Rajesh Manoharan | Data, AI, and Design</title>
+    <meta
+      name="description"
+      content="Rajesh Manoharan builds with data, AI, and design to solve real problems with clarity, systems thinking, and taste."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Antonio:wght@400;500;700&family=Space+Grotesk:wght@400;500;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        color-scheme: dark;
+        --canvas: #050505;
+        --surface: rgba(19, 19, 19, 0.78);
+        --surface-strong: rgba(28, 28, 28, 0.96);
+        --line: rgba(255, 255, 255, 0.12);
+        --text: #f3f3f3;
+        --muted: #a7a7a7;
+        --soft: #d6d6d6;
+        --m-light: #0066b1;
+        --m-blue: #1c69d4;
+        --m-red: #e22718;
+        --glow: rgba(28, 105, 212, 0.25);
+        --max-width: 1180px;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        margin: 0;
+        min-height: 100vh;
+        font-family: "Space Grotesk", sans-serif;
+        background:
+          radial-gradient(circle at top left, rgba(0, 102, 177, 0.16), transparent 26%),
+          radial-gradient(circle at 82% 12%, rgba(226, 39, 24, 0.16), transparent 22%),
+          linear-gradient(145deg, #000 0%, #04070d 48%, #000 100%);
+        color: var(--text);
+      }
+
+      body::before {
+        content: "";
+        position: fixed;
+        inset: 0;
+        pointer-events: none;
+        opacity: 0.18;
+        background-image:
+          linear-gradient(rgba(255, 255, 255, 0.035) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(255, 255, 255, 0.035) 1px, transparent 1px);
+        background-size: 32px 32px;
+        mask-image: radial-gradient(circle at center, black 48%, transparent 92%);
+      }
+
+      a {
+        color: inherit;
+        text-decoration: none;
+      }
+
+      img {
+        max-width: 100%;
+        display: block;
+      }
+
+      .shell {
+        position: relative;
+        overflow: hidden;
+      }
+
+      .shell::before,
+      .shell::after {
+        content: "";
+        position: absolute;
+        filter: blur(14px);
+        pointer-events: none;
+      }
+
+      .shell::before {
+        inset: 9rem auto auto -10rem;
+        width: 26rem;
+        height: 13rem;
+        background: linear-gradient(90deg, rgba(0, 102, 177, 0.44), rgba(28, 105, 212, 0.2), transparent);
+        transform: rotate(-12deg);
+      }
+
+      .shell::after {
+        inset: auto -8rem 10rem auto;
+        width: 24rem;
+        height: 14rem;
+        background: linear-gradient(90deg, transparent, rgba(28, 105, 212, 0.14), rgba(226, 39, 24, 0.3));
+        transform: rotate(-8deg);
+      }
+
+      .container {
+        width: min(calc(100% - 2rem), var(--max-width));
+        margin: 0 auto;
+      }
+
+      .topbar {
+        position: sticky;
+        top: 0;
+        z-index: 20;
+        backdrop-filter: blur(14px);
+        background: rgba(0, 0, 0, 0.5);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+      }
+
+      .topbar-inner {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 1rem;
+        min-height: 4.5rem;
+      }
+
+      .brand {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.9rem;
+        font-size: 0.9rem;
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+      }
+
+      .brand-mark {
+        display: inline-grid;
+        gap: 0.22rem;
+      }
+
+      .brand-mark span {
+        display: block;
+        width: 2.3rem;
+        height: 0.24rem;
+      }
+
+      .brand-mark span:nth-child(1) {
+        background: var(--m-light);
+      }
+
+      .brand-mark span:nth-child(2) {
+        background: var(--m-blue);
+      }
+
+      .brand-mark span:nth-child(3) {
+        background: var(--m-red);
+      }
+
+      .nav {
+        display: flex;
+        align-items: center;
+        gap: 1.2rem;
+        color: var(--muted);
+        font-size: 0.92rem;
+      }
+
+      .nav a:hover,
+      .nav a:focus-visible {
+        color: var(--text);
+      }
+
+      .hero {
+        padding: 6rem 0 3rem;
+      }
+
+      .eyebrow {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.8rem;
+        margin-bottom: 1.25rem;
+        color: var(--soft);
+        text-transform: uppercase;
+        letter-spacing: 0.24em;
+        font-size: 0.78rem;
+      }
+
+      .eyebrow::before {
+        content: "";
+        width: 3.8rem;
+        height: 0.24rem;
+        background: linear-gradient(90deg, var(--m-light), var(--m-blue), var(--m-red));
+      }
+
+      .hero-grid {
+        display: grid;
+        grid-template-columns: minmax(0, 1.25fr) minmax(320px, 0.75fr);
+        gap: 2rem;
+        align-items: end;
+      }
+
+      .headline {
+        margin: 0;
+        font-family: "Antonio", sans-serif;
+        font-size: clamp(4rem, 10vw, 8rem);
+        line-height: 0.92;
+        letter-spacing: 0.03em;
+        text-transform: uppercase;
+      }
+
+      .headline .muted-line {
+        color: rgba(255, 255, 255, 0.3);
+      }
+
+      .hero-copy {
+        max-width: 42rem;
+        margin: 1.6rem 0 0;
+        color: var(--soft);
+        font-size: 1.1rem;
+        line-height: 1.75;
+      }
+
+      .hero-actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.9rem;
+        margin-top: 2rem;
+      }
+
+      .button {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 3.4rem;
+        padding: 0.95rem 1.4rem;
+        border: 1px solid transparent;
+        text-transform: uppercase;
+        letter-spacing: 0.16em;
+        font-size: 0.82rem;
+        font-weight: 700;
+        transition:
+          transform 180ms ease,
+          border-color 180ms ease,
+          background 180ms ease,
+          color 180ms ease,
+          box-shadow 180ms ease;
+      }
+
+      .button:hover,
+      .button:focus-visible {
+        transform: translateY(-2px);
+      }
+
+      .button-primary {
+        background: #fff;
+        color: #000;
+        box-shadow: 0 0 32px rgba(255, 255, 255, 0.12);
+      }
+
+      .button-secondary {
+        border-color: rgba(255, 255, 255, 0.18);
+        color: var(--text);
+        background: rgba(255, 255, 255, 0.03);
+      }
+
+      .hero-panel,
+      .card,
+      .quote,
+      .timeline-item {
+        border: 1px solid var(--line);
+        background:
+          linear-gradient(180deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.02)),
+          var(--surface);
+        backdrop-filter: blur(16px);
+      }
+
+      .hero-panel {
+        padding: 1.5rem;
+        position: relative;
+        min-height: 28rem;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        box-shadow: 0 24px 80px rgba(0, 0, 0, 0.34);
+      }
+
+      .hero-panel::before {
+        content: "";
+        position: absolute;
+        inset: 0 0 auto;
+        height: 0.3rem;
+        background: linear-gradient(90deg, var(--m-light) 0 33%, var(--m-blue) 33% 66%, var(--m-red) 66%);
+      }
+
+      .panel-kicker,
+      .mini-label {
+        color: var(--muted);
+        text-transform: uppercase;
+        letter-spacing: 0.18em;
+        font-size: 0.74rem;
+      }
+
+      .hero-metric {
+        display: grid;
+        gap: 0.7rem;
+      }
+
+      .metric-value {
+        font-family: "Antonio", sans-serif;
+        font-size: clamp(3rem, 8vw, 5rem);
+        line-height: 0.95;
+        text-transform: uppercase;
+      }
+
+      .metric-copy {
+        color: var(--soft);
+        line-height: 1.65;
+      }
+
+      .signal-list {
+        display: grid;
+        gap: 0.8rem;
+        margin-top: 1.6rem;
+      }
+
+      .signal {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 1rem;
+        padding: 0.9rem 0;
+        border-top: 1px solid rgba(255, 255, 255, 0.08);
+        color: var(--soft);
+      }
+
+      .signal strong {
+        color: var(--text);
+      }
+
+      .section {
+        padding: 2.6rem 0 4.5rem;
+      }
+
+      .section-heading {
+        display: grid;
+        gap: 0.9rem;
+        margin-bottom: 1.8rem;
+      }
+
+      .section-heading h2 {
+        margin: 0;
+        font-family: "Antonio", sans-serif;
+        font-size: clamp(2.4rem, 5vw, 4.6rem);
+        line-height: 0.98;
+        text-transform: uppercase;
+        letter-spacing: 0.03em;
+      }
+
+      .section-heading p {
+        max-width: 48rem;
+        margin: 0;
+        color: var(--soft);
+        line-height: 1.75;
+      }
+
+      .card-grid {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 1.1rem;
+      }
+
+      .card {
+        padding: 1.4rem;
+        min-height: 19rem;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .card::after {
+        content: "";
+        position: absolute;
+        inset: auto -8% -18% auto;
+        width: 10rem;
+        height: 10rem;
+        border-radius: 50%;
+        background: radial-gradient(circle, var(--glow), transparent 68%);
+      }
+
+      .card h3 {
+        margin: 0.9rem 0 0.8rem;
+        font-family: "Antonio", sans-serif;
+        font-size: 2rem;
+        line-height: 1;
+        text-transform: uppercase;
+        letter-spacing: 0.03em;
+      }
+
+      .card p {
+        margin: 0;
+        color: var(--soft);
+        line-height: 1.7;
+      }
+
+      .accent-bar {
+        width: 4.5rem;
+        height: 0.28rem;
+        background: linear-gradient(90deg, var(--m-light), var(--m-blue), var(--m-red));
+      }
+
+      .story-grid {
+        display: grid;
+        grid-template-columns: 1.05fr 0.95fr;
+        gap: 1.1rem;
+      }
+
+      .quote {
+        padding: 1.8rem;
+        min-height: 100%;
+      }
+
+      .quote blockquote {
+        margin: 1rem 0 0;
+        font-family: "Antonio", sans-serif;
+        font-size: clamp(2rem, 4vw, 3.6rem);
+        line-height: 1.04;
+        text-transform: uppercase;
+        letter-spacing: 0.03em;
+      }
+
+      .quote p {
+        margin: 1rem 0 0;
+        color: var(--soft);
+        line-height: 1.7;
+      }
+
+      .timeline {
+        display: grid;
+        gap: 1rem;
+      }
+
+      .timeline-item {
+        padding: 1.3rem 1.4rem;
+      }
+
+      .timeline-item h3 {
+        margin: 0.75rem 0 0.5rem;
+        font-family: "Antonio", sans-serif;
+        font-size: 1.8rem;
+        text-transform: uppercase;
+        letter-spacing: 0.03em;
+      }
+
+      .timeline-item p {
+        margin: 0;
+        color: var(--soft);
+        line-height: 1.7;
+      }
+
+      .detail-grid {
+        display: grid;
+        grid-template-columns: 1.1fr 0.9fr;
+        gap: 1.1rem;
+      }
+
+      .stack {
+        display: grid;
+        gap: 1rem;
+      }
+
+      .detail-card {
+        padding: 1.45rem;
+      }
+
+      .detail-card h3 {
+        margin: 0.65rem 0 0.75rem;
+        font-family: "Antonio", sans-serif;
+        font-size: 2rem;
+        line-height: 1;
+        letter-spacing: 0.03em;
+        text-transform: uppercase;
+      }
+
+      .detail-card p {
+        margin: 0;
+        color: var(--soft);
+        line-height: 1.72;
+      }
+
+      .detail-list {
+        display: grid;
+        gap: 0.95rem;
+        margin-top: 1.2rem;
+      }
+
+      .detail-row {
+        display: grid;
+        gap: 0.3rem;
+        padding-top: 0.95rem;
+        border-top: 1px solid rgba(255, 255, 255, 0.08);
+      }
+
+      .detail-row strong {
+        color: var(--text);
+        font-size: 1rem;
+      }
+
+      .detail-row span {
+        color: var(--muted);
+        line-height: 1.65;
+      }
+
+      .pill-links {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.8rem;
+        margin-top: 1.35rem;
+      }
+
+      .pill-link {
+        display: inline-flex;
+        align-items: center;
+        padding: 0.82rem 1rem;
+        border: 1px solid rgba(255, 255, 255, 0.12);
+        color: var(--soft);
+        font-size: 0.92rem;
+        transition:
+          transform 180ms ease,
+          border-color 180ms ease,
+          color 180ms ease,
+          background 180ms ease;
+      }
+
+      .pill-link:hover,
+      .pill-link:focus-visible {
+        transform: translateY(-2px);
+        border-color: rgba(255, 255, 255, 0.26);
+        color: var(--text);
+        background: rgba(255, 255, 255, 0.04);
+      }
+
+      .footer {
+        padding: 1rem 0 3.5rem;
+      }
+
+      .footer-box {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: space-between;
+        gap: 1rem;
+        padding: 1.25rem 1.4rem;
+        border-top: 1px solid rgba(255, 255, 255, 0.08);
+        color: var(--muted);
+      }
+
+      .reveal {
+        opacity: 0;
+        transform: translateY(28px);
+        transition: opacity 650ms ease, transform 650ms ease;
+      }
+
+      .reveal.visible {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      @media (max-width: 960px) {
+        .hero-grid,
+        .story-grid,
+        .card-grid,
+        .detail-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .hero {
+          padding-top: 4.5rem;
+        }
+
+        .headline {
+          font-size: clamp(3.2rem, 18vw, 6rem);
+        }
+
+        .hero-panel {
+          min-height: auto;
+        }
+      }
+
+      @media (max-width: 720px) {
+        .topbar-inner {
+          flex-direction: column;
+          align-items: flex-start;
+          justify-content: center;
+          padding: 0.9rem 0;
+        }
+
+        .nav {
+          flex-wrap: wrap;
+          gap: 0.9rem;
+          font-size: 0.86rem;
+        }
+
+        .hero-copy,
+        .section-heading p,
+        .card p,
+        .timeline-item p,
+        .quote p {
+          font-size: 0.98rem;
+        }
+
+        .button {
+          width: 100%;
+        }
+
+        .footer-box {
+          align-items: flex-start;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="shell">
+      <header class="topbar">
+        <div class="container topbar-inner">
+          <a class="brand" href="#top" aria-label="Rajesh Manoharan home">
+            <span class="brand-mark" aria-hidden="true">
+              <span></span>
+              <span></span>
+              <span></span>
+            </span>
+            <span>Rajesh Manoharan</span>
+          </a>
+          <nav class="nav" aria-label="Primary">
+            <a href="#what-i-do">What I Do</a>
+            <a href="#experience">Experience</a>
+            <a href="#portfolio">Portfolio</a>
+            <a href="#achievements">Achievements</a>
+            <a href="https://www.linkedin.com/in/rajesh-manoharan-37900a169/" target="_blank" rel="noreferrer">LinkedIn</a>
+          </nav>
+        </div>
+      </header>
+
+      <main id="top">
+        <section class="hero">
+          <div class="container hero-grid">
+            <div class="reveal visible">
+              <div class="eyebrow">Data / AI / Design</div>
+              <h1 class="headline">
+                Building clarity
+                <span class="muted-line">from complexity</span>
+              </h1>
+              <p class="hero-copy">
+                I’m Rajesh Manoharan, a curious designer driven by data. My background spans UX, data storytelling, enterprise product design, and AI-forward thinking, with experience across EPAM Systems, Swiggy, and Amura Health.
+              </p>
+              <div class="hero-actions">
+                <a class="button button-primary" href="https://www.linkedin.com/in/rajesh-manoharan-37900a169/" target="_blank" rel="noreferrer">View LinkedIn</a>
+                <a class="button button-secondary" href="mailto:rajesh.manoharan97@gmail.com">Get In Touch</a>
+              </div>
+            </div>
+
+            <aside class="hero-panel reveal">
+              <div>
+                <div class="panel-kicker">Problem-Solving Signal</div>
+                <div class="hero-metric">
+                  <div class="metric-value">Data + taste + systems</div>
+                  <p class="metric-copy">
+                    I work at the intersection of computer science, information design, and product experience, translating complexity into dashboards, workflows, stories, and systems that people can actually use.
+                  </p>
+                </div>
+              </div>
+
+              <div class="signal-list">
+                <div class="signal">
+                  <strong>Data</strong>
+                  <span>structure, signals, decisions</span>
+                </div>
+                <div class="signal">
+                  <strong>AI</strong>
+                  <span>automation, reasoning, leverage</span>
+                </div>
+                <div class="signal">
+                  <strong>Design</strong>
+                  <span>clarity, usability, momentum</span>
+                </div>
+              </div>
+            </aside>
+          </div>
+        </section>
+
+        <section class="section" id="what-i-do">
+          <div class="container">
+            <div class="section-heading reveal">
+              <div class="eyebrow">What I Do</div>
+              <h2>Section by section, here is how I create value</h2>
+              <p>
+                This page is meant to be easy to scan. If you are meeting me for the first time, the shortest version is this: I blend analytical thinking, design craft, and AI curiosity to solve product and communication problems with more clarity.
+              </p>
+            </div>
+
+            <div class="card-grid">
+              <article class="card reveal">
+                <div class="mini-label">01 / Data Thinking</div>
+                <h3>I find the signal</h3>
+                <div class="accent-bar" aria-hidden="true"></div>
+                <p>
+                  I enjoy turning ambiguity into structure, whether that means making sense of data, framing the right decision, or finding the story hidden inside a complex system.
+                </p>
+              </article>
+
+              <article class="card reveal">
+                <div class="mini-label">02 / AI Leverage</div>
+                <h3>I build smarter workflows</h3>
+                <div class="accent-bar" aria-hidden="true"></div>
+                <p>
+                  I use AI as a practical layer on top of good thinking: for better research, faster iteration, stronger prompting, and more thoughtful human-machine collaboration.
+                </p>
+              </article>
+
+              <article class="card reveal">
+                <div class="mini-label">03 / Design Intent</div>
+                <h3>I make it usable</h3>
+                <div class="accent-bar" aria-hidden="true"></div>
+                <p>
+                  I care deeply about how things feel in use. My design work focuses on making enterprise and data-heavy products intuitive, credible, and easier to act on.
+                </p>
+              </article>
+            </div>
+          </div>
+        </section>
+
+        <section class="section" id="experience">
+          <div class="container detail-grid">
+            <div class="quote reveal">
+              <div class="mini-label">Work Experience</div>
+              <blockquote>
+                I design products and stories that make complex information easier to understand.
+              </blockquote>
+              <p>
+                The thread across my experience is consistent: I’ve moved from backend and data-oriented thinking into UX, information design, and product storytelling, building a profile that is both technical and audience-aware.
+              </p>
+            </div>
+
+            <div class="stack">
+              <article class="timeline-item detail-card reveal">
+                <div class="mini-label">Current & Recent Roles</div>
+                <h3>Experience, phrased for clarity</h3>
+                <p>
+                  I currently work as a Senior UX Designer at EPAM Systems, where I focus on data storytelling and experience design. Before that, I worked as an Assistant Design Manager at Swiggy and also built strong healthcare product experience through multiple roles at Amura Health.
+                </p>
+                <div class="detail-list">
+                  <div class="detail-row">
+                    <strong>EPAM Systems</strong>
+                    <span>Senior UX Designer, focused on data storytelling and enterprise-grade product thinking.</span>
+                  </div>
+                  <div class="detail-row">
+                    <strong>Swiggy</strong>
+                    <span>Assistant Design Manager, contributing to product clarity and experience design in a high-scale digital environment.</span>
+                  </div>
+                  <div class="detail-row">
+                    <strong>Amura Health</strong>
+                    <span>Worked across internship, consulting, and full-time product design contexts, shaping dashboards, patient-facing systems, responsive workflows, and MVP-oriented thinking.</span>
+                  </div>
+                  <div class="detail-row">
+                    <strong>How I contribute</strong>
+                    <span>I bring together research, service blueprinting, prototyping, data visualization, and interface design to turn briefs into usable products.</span>
+                  </div>
+                </div>
+              </article>
+            </div>
+          </div>
+        </section>
+
+        <section class="section" id="certifications">
+          <div class="container">
+            <div class="section-heading reveal">
+              <div class="eyebrow">Certifications & Learning</div>
+              <h2>Proof of learning, not just interest</h2>
+              <p>
+                My certifications reflect a pattern in how I learn: I stay close to practical tools, emerging AI systems, and ways of working that can improve the quality of both thinking and execution.
+              </p>
+            </div>
+
+            <div class="card-grid">
+              <article class="card reveal">
+                <div class="mini-label">Certifications</div>
+                <h3>Anthropic credentials</h3>
+                <p>
+                  I earned the Claude Certified Architect - Foundations certification from Anthropic in June 2026, building stronger grounding in AI model behavior, prompt design, responsible use, and real-world application.
+                </p>
+              </article>
+
+              <article class="card reveal">
+                <div class="mini-label">Why It Matters</div>
+                <h3>Built for practice</h3>
+                <p>
+                  I also completed Building with the Claude API, reinforcing that my interest in AI is not abstract. I care about learning tools deeply enough to apply them meaningfully.
+                </p>
+              </article>
+
+              <article class="card reveal">
+                <div class="mini-label">Learning Mindset</div>
+                <h3>More than credentials</h3>
+                <p>
+                  LinkedIn shows five certifications in total, which signals a broader commitment to continuous learning across design, technology, and AI-enabled workflows.
+                </p>
+              </article>
+            </div>
+          </div>
+        </section>
+
+        <section class="section" id="portfolio">
+          <div class="container detail-grid">
+            <div class="stack">
+              <article class="timeline-item detail-card reveal">
+                <div class="mini-label">Portfolio</div>
+                <h3>Selected work and live proof</h3>
+                <p>
+                  My portfolio is best understood through the kind of work I enjoy most: dashboards, data-rich interfaces, user-centered product systems, and strategic design that helps ideas move from concept to execution.
+                </p>
+                <div class="pill-links">
+                  <a class="pill-link" href="https://www.linkedin.com/in/rajesh-manoharan-37900a169/" target="_blank" rel="noreferrer">LinkedIn Profile</a>
+                  <a class="pill-link" href="oman-education-site/index.html">Project Sample</a>
+                  <a class="pill-link" href="chennai-implementation-atlas.html">Strategy Deck</a>
+                </div>
+              </article>
+            </div>
+
+            <article class="quote reveal">
+              <div class="mini-label">How To Read My Portfolio</div>
+              <blockquote>
+                My portfolio sits between product design, data interpretation, and systems thinking.
+              </blockquote>
+              <p>
+                My profile describes notable contributions at Amura Health and Larsen & Toubro Infotech, especially in B2B dashboards, healthcare solutions, prototyping, and turning user-centric briefs into value-driven interfaces.
+              </p>
+            </article>
+          </div>
+        </section>
+
+        <section class="section" id="achievements">
+          <div class="container">
+            <div class="section-heading reveal">
+              <div class="eyebrow">Achievements</div>
+              <h2>Highlights people should notice quickly</h2>
+              <p>
+                These highlights are phrased as outcomes so they are easy to understand quickly. They show both capability and momentum across design, AI, and collaboration.
+              </p>
+            </div>
+
+            <div class="card-grid">
+              <article class="card reveal">
+                <div class="mini-label">AI & Learning</div>
+                <h3>Certified in Claude</h3>
+                <p>
+                  I earned Anthropic’s Claude Certified Architect - Foundations certification, strengthening my ability to think about AI systems with more rigor, clarity, and responsibility.
+                </p>
+              </article>
+
+              <article class="card reveal">
+                <div class="mini-label">Strategic Exposure</div>
+                <h3>Worked on future-ready education conversations</h3>
+                <p>
+                  My recent activity includes discussions connected to bringing OctaKidz and higher-order thinking programs into government-school contexts, including conversations linked to the Oman Ministry of Education.
+                </p>
+              </article>
+
+              <article class="card reveal">
+                <div class="mini-label">Community & Momentum</div>
+                <h3>Visible in startup and design circles</h3>
+                <p>
+                  My LinkedIn activity also reflects participation in startup and product communities, including the Global Startup Summit Coimbatore ecosystem, where collaboration, innovation, and future-of-work themes are central.
+                </p>
+              </article>
+            </div>
+          </div>
+        </section>
+      </main>
+
+      <footer class="footer">
+        <div class="container footer-box">
+          <div>Rajesh Manoharan</div>
+          <div>Senior UX Designer focused on data, AI, and thoughtful product design.</div>
+          <div>
+            <a href="mailto:rajesh.manoharan97@gmail.com">rajesh.manoharan97@gmail.com</a>
+          </div>
+        </div>
+      </footer>
+    </div>
+
+    <script>
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add("visible");
+            }
+          });
+        },
+        { threshold: 0.18 }
+      );
+
+      document.querySelectorAll(".reveal").forEach((element, index) => {
+        if (index === 0) return;
+        observer.observe(element);
+      });
+    </script>
+  </body>
+</html>
